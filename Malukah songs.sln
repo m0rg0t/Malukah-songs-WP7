@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Malukah songs", "Malukah songs\Malukah songs.csproj", "{18D6DCE6-87ED-4D47-881C-C69F8111C35C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18D6DCE6-87ED-4D47-881C-C69F8111C35C}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{18D6DCE6-87ED-4D47-881C-C69F8111C35C}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{18D6DCE6-87ED-4D47-881C-C69F8111C35C}.Debug|Any CPU.Deploy.0 = Release|Any CPU
+		{18D6DCE6-87ED-4D47-881C-C69F8111C35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18D6DCE6-87ED-4D47-881C-C69F8111C35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18D6DCE6-87ED-4D47-881C-C69F8111C35C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,12 @@
+﻿<local:MainViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Malukah_songs" 
+    SampleProperty="Sample Text Property Value">
+    
+    <local:MainViewModel.Items>
+        <local:ItemViewModel Title="design one" Waveform_url="http://w1.sndcdn.com/BUQHQ7pRvn5u_m.png" Stream_url="http://api.soundcloud.com/tracks/36940925/stream?client_id=c210a3efbb3d75200118f6bf24d71ee0"/>
+
+    </local:MainViewModel.Items>
+    
+</local:MainViewModel>
