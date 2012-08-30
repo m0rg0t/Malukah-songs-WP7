@@ -99,5 +99,25 @@ namespace Malukah_songs
             }
             catch { };*/
         }
+
+        private void StackPanel_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                try
+                {
+                    WebBrowserTask webbrowser = new WebBrowserTask();
+                    webbrowser.Uri = new Uri((this.SongList.SelectedItem as ItemViewModel).Download_url.ToString());
+                    webbrowser.Show();
+                }
+                catch
+                {
+                    WebBrowserTask webbrowser = new WebBrowserTask();
+                    webbrowser.Uri = new Uri((this.SongList.SelectedItem as ItemViewModel).Stream_url.ToString());
+                    webbrowser.Show();
+                };
+            }
+            catch { };
+        }
     }
 }

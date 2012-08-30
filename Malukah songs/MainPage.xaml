@@ -81,7 +81,7 @@
                              ItemsSource="{Binding Items}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="0,0,0,0" Width="432" Height="auto">
+                            <StackPanel Margin="0,0,0,0" Width="432" Height="auto" Tap="StackPanel_Tap">
                                 <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
                                         <Image Source="{Binding Waveform_url}" Width="432" Tap="Image_Tap" Tag="{Binding Download_url}" KeyDown="Image_KeyDown" />
 <!--"{Binding ElementName=StreamURL}"-->
