@@ -20,16 +20,22 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
  
         <!--Panorama control-->
-        <controls:Panorama Title="Malukah songs">
-            <!--<controls:Panorama.Background>
+        <controls:Panorama>
+            <controls:Panorama.Title>
+                <TextBlock Text="Malukah songs" FontSize="75" Margin="0,85,0,0"/>
+            </controls:Panorama.Title>
+                    <!--<controls:Panorama.Background>
                 <ImageBrush ImageSource="PanoramaBackground.png"/>
             </controls:Panorama.Background>-->
  
             <!--Panorama item one-->
 
-            <controls:PanoramaItem Header="Malukah">
+            <controls:PanoramaItem>
+                <controls:PanoramaItem.Header>
+                    <TextBlock Text="Malukah" FontSize="50" Margin="0,0,0,0"/>
+                </controls:PanoramaItem.Header>
                 <StackPanel>
-                <ScrollViewer Height="490">
+                <ScrollViewer Height="580">
                     <StackPanel>
                         <Image Width="225" Height="auto" Margin="0" 
                                Source="/Malukah%20songs;component/maluabout-225x300.jpg" />
@@ -63,20 +69,24 @@
                 </StackPanel>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="Songs">
+            <controls:PanoramaItem>
+                <controls:PanoramaItem.Header>
+                    <TextBlock Text="Songs" FontSize="50" Margin="0,0,0,0"/>
+                </controls:PanoramaItem.Header>
                 <!--Double line list with text wrapping-->
                 <StackPanel>
-                    <ScrollViewer  Height="490">
-                    <ListBox Margin="0,0,0,0" 
+                    <ScrollViewer  Height="580">
+                    <ListBox Margin="0,0,0,0" Name="SongList"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"  
                              ItemsSource="{Binding Items}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,0" Width="432" Height="auto">
-                                <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <Image Source="{Binding Waveform_url}" Width="432" Tap="Image_Tap" Tag="{Binding ElementName=StreamURL}" KeyDown="Image_KeyDown" />
+                                <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                        <Image Source="{Binding Waveform_url}" Width="432" Tap="Image_Tap" Tag="{Binding Download_url}" KeyDown="Image_KeyDown" />
+<!--"{Binding ElementName=StreamURL}"-->
                                 <toolkit:PerformanceProgressBar Name="Bar"  
-                                Margin="0,0,0,0" IsIndeterminate="False" Grid.Row="1" />
+                                Margin="0,0,0,0" IsIndeterminate="False" Grid.Row="1" Visibility="Collapsed" />
                                 <MediaElement Name="StreamURL" Tag="{Binding ElementName=Bar}" 
                                               Width="432" Height="10" Source="{Binding Stream_url}"
                                               AutoPlay="False">
@@ -86,10 +96,10 @@
                                 </MediaElement>
                                 <HyperlinkButton TargetName="_blank"
                                     NavigateUri="{Binding Download_url}" 
-                                    Content="download"/>
+                                    Content="download" FontSize="34" />
                                 <HyperlinkButton TargetName="_blank"
                                     NavigateUri="{Binding Path=Permalink_url}" 
-                                    Content="Open at soundcloud.com"/>
+                                    Content="Open at soundcloud.com" FontSize="34"/>
                                     </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

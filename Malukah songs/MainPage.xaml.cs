@@ -37,17 +37,20 @@ namespace Malukah_songs
 
         private void YoutubeImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //NavigationService.Navigate(new Uri("http://www.youtube.com/watch?v=4z9TdDCWN7g",UriKind.Absolute));
-            WebBrowserTask webbrowser = new WebBrowserTask();
-            webbrowser.Uri = new Uri("http://www.youtube.com/watch?v=4z9TdDCWN7g");
-            webbrowser.Show();
+            try
+            {
+                WebBrowserTask webbrowser = new WebBrowserTask();
+                webbrowser.Uri = new Uri("http://www.youtube.com/watch?v=4z9TdDCWN7g");
+                webbrowser.Show();
+            }
+            catch { };
         }
 
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var me = ((FrameworkElement)sender).Tag as MediaElement;
             //MessageBox.Show(me.CurrentState.ToString());
-            if (me.CurrentState.ToString() != "Playing")
+            /*if (me.CurrentState.ToString() != "Playing")
             {
                 me.Play();
                 var bar = me.Tag as PerformanceProgressBar;
@@ -58,24 +61,43 @@ namespace Malukah_songs
                 me.Stop();
                 var bar = me.Tag as PerformanceProgressBar;
                 bar.IsIndeterminate = false;
-            };
+            };*/
+            try
+            {
+                try
+                {
+                    WebBrowserTask webbrowser = new WebBrowserTask();
+                    webbrowser.Uri = new Uri((this.SongList.SelectedItem as ItemViewModel).Download_url.ToString());
+                    webbrowser.Show();
+                }
+                catch {
+                    WebBrowserTask webbrowser = new WebBrowserTask();
+                    webbrowser.Uri = new Uri((this.SongList.SelectedItem as ItemViewModel).Stream_url.ToString());
+                    webbrowser.Show();
+                };
+            }
+            catch { };
         }
 
         private void Image_KeyDown(object sender, KeyEventArgs e)
         {
-            var me = ((FrameworkElement)sender).Tag as MediaElement;
-            if (me.CurrentState.ToString() != "Playing")
+            /*try
             {
-                me.Play();
-                var bar = me.Tag as PerformanceProgressBar;
-                bar.IsIndeterminate = true;
+                var me = ((FrameworkElement)sender).Tag as MediaElement;
+                if (me.CurrentState.ToString() != "Playing")
+                {
+                    me.Play();
+                    var bar = me.Tag as PerformanceProgressBar;
+                    bar.IsIndeterminate = true;
+                }
+                else
+                {
+                    me.Stop();
+                    var bar = me.Tag as PerformanceProgressBar;
+                    bar.IsIndeterminate = false;
+                };
             }
-            else
-            {
-                me.Stop();
-                var bar = me.Tag as PerformanceProgressBar;
-                bar.IsIndeterminate = false;
-            };
+            catch { };*/
         }
     }
 }
