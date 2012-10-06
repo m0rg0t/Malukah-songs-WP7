@@ -11,6 +11,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Net.NetworkInformation;
+using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Malukah_songs
 {
@@ -20,7 +23,6 @@ namespace Malukah_songs
         public MainPage()
         {
             InitializeComponent();
-
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
@@ -29,10 +31,63 @@ namespace Malukah_songs
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
+            try
             {
-                App.ViewModel.LoadData();
+                bool hasNetworkConnection = NetworkInterface.NetworkInterfaceType != NetworkInterfaceType.None;
+                if (hasNetworkConnection)
+                {
+                    this.progressOverlay.Visibility = Visibility.Visible;
+                    this.progressOverlay.IsEnabled = true;
+                }
+                else
+                {
+                    /// DWP-95
+                    MessageBox.Show("No internet connection, can't load fresh songs list.");
+
+                    if (!App.ViewModel.Storage.Contains("favitems"))
+                    {
+                        App.ViewModel.Items = new ObservableCollection<ItemViewModel>();
+                    }
+                    else
+                    {
+                        App.ViewModel.Items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(App.ViewModel.Storage["favitems"].ToString());
+                    };
+                    this.SongList.ItemsSource = App.ViewModel.Items;
+
+                    this.progressOverlay.Visibility = Visibility.Collapsed;
+                    this.progressOverlay.IsEnabled = false;
+                };
+                if (!App.ViewModel.IsDataLoaded)
+                {
+                    try
+                    {
+                        App.ViewModel.LoadData();
+                        App.ViewModel.DataLoad += new MainViewModel.DataLoadEventHandler(this.DataLoaded);
+                    }
+                    catch
+                    {
+                        this.progressOverlay.Visibility = Visibility.Collapsed;
+                        this.progressOverlay.IsEnabled = false;
+                    };
+                }
             }
+            catch { };
+        }
+
+        private void DataLoaded(object sender, EventArgs e)
+        {
+            try
+            {
+                this.SongList.ItemsSource = App.ViewModel.Items;
+
+                this.progressOverlay.Visibility = Visibility.Collapsed;
+                this.progressOverlay.IsEnabled = false;
+            }
+            catch
+            {
+                this.progressOverlay.Visibility = Visibility.Collapsed;
+                this.progressOverlay.IsEnabled = false;
+            };
         }
 
         private void YoutubeImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -49,19 +104,6 @@ namespace Malukah_songs
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var me = ((FrameworkElement)sender).Tag as MediaElement;
-            //MessageBox.Show(me.CurrentState.ToString());
-            /*if (me.CurrentState.ToString() != "Playing")
-            {
-                me.Play();
-                var bar = me.Tag as PerformanceProgressBar;
-                bar.IsIndeterminate = true;
-            }
-            else
-            {
-                me.Stop();
-                var bar = me.Tag as PerformanceProgressBar;
-                bar.IsIndeterminate = false;
-            };*/
             try
             {
                 try
@@ -81,23 +123,6 @@ namespace Malukah_songs
 
         private void Image_KeyDown(object sender, KeyEventArgs e)
         {
-            /*try
-            {
-                var me = ((FrameworkElement)sender).Tag as MediaElement;
-                if (me.CurrentState.ToString() != "Playing")
-                {
-                    me.Play();
-                    var bar = me.Tag as PerformanceProgressBar;
-                    bar.IsIndeterminate = true;
-                }
-                else
-                {
-                    me.Stop();
-                    var bar = me.Tag as PerformanceProgressBar;
-                    bar.IsIndeterminate = false;
-                };
-            }
-            catch { };*/
         }
 
         private void StackPanel_Tap(object sender, System.Windows.Input.GestureEventArgs e)

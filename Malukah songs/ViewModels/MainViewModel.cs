@@ -27,21 +27,14 @@ namespace Malukah_songs
         {
             this.Items = new ObservableCollection<ItemViewModel>();
 
-            if (!this.Storage.Contains("favitems"))
-            {
-                this.Items = new ObservableCollection<ItemViewModel>();
-            }
-            else
-            {
-                Items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(this.Storage["favitems"].ToString());
-            };
-            //Items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(_test1);
+
         }
 
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<ItemViewModel> Items { get; private set; }
+        public ObservableCollection<ItemViewModel> Items { get { return _items; } set { _items = value; } }
+        private ObservableCollection<ItemViewModel> _items;
 
         private string _sampleProperty = "Sample Runtime Property Value";
         /// <summary>
@@ -75,32 +68,60 @@ namespace Malukah_songs
         /// </summary>
         public void LoadData()
         {
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(messagesResponseCompleted);
-            webClient.DownloadStringAsync(new Uri("http://api.soundcloud.com/users/malukah/tracks.json?client_id=c210a3efbb3d75200118f6bf24d71ee0"));
-
-            
+            try
+            {
+                WebClient webClient = new WebClient();
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(messagesResponseCompleted);
+                webClient.DownloadStringAsync(new Uri("http://api.soundcloud.com/users/malukah/tracks.json?client_id=c210a3efbb3d75200118f6bf24d71ee0"));
+            }
+            catch { };
         }
 
         void messagesResponseCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            //get downloaded string
-            string json = e.Result.ToString();
-            //string json = JsonConvert.SerializeObject(this.Items, Formatting.Indented);
-            if (!this.Storage.Contains("favitems"))
+            var bw = new BackgroundWorker();            
+            bw.DoWork += delegate
             {
-                this.Storage.Add("favitems", json);
-            }
-            else
-            {
-                this.Storage["favitems"] = json;
-            }
-            this.Storage.Save();
+                try
+                {
+                    //System.Threading.Thread.Sleep(900);
+                    string json = e.Result.ToString();
+                    if (!this.Storage.Contains("favitems"))
+                    {
+                        this.Storage.Add("favitems", json);
+                    }
+                    else
+                    {
+                        this.Storage["favitems"] = json;
+                    }
+                    this.Storage.Save();
+                    this._items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json);
 
-            Items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json);
-            this.IsDataLoaded = true;
-            NotifyPropertyChanged("IsDataLoaded");
-            NotifyPropertyChanged("Items");
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            this.IsDataLoaded = true;
+                            NotifyPropertyChanged("IsDataLoaded");
+                            NotifyPropertyChanged("Items");
+
+                            App.ViewModel.OnDataLoad(EventArgs.Empty);
+                        });
+                }
+                catch { };
+            };
+            bw.RunWorkerAsync();  
+        }
+
+        public delegate void DataLoadEventHandler(object sender, EventArgs e);
+        public event DataLoadEventHandler DataLoad;
+        // Invoke the Changed event; called whenever list changes
+        protected virtual void OnDataLoad(EventArgs e)
+        {
+
+            if (DataLoad != null)
+            {
+                //this.NotifyPropertyChanged("Items");
+                DataLoad(this, e);
+            };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
