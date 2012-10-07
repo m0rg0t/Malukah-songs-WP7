@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace MalukahSongs.DataModel
 {
@@ -99,6 +101,21 @@ namespace MalukahSongs.DataModel
                 }
             }
         }
+
+        private BitmapImage bi;
+        public BitmapImage Image
+        {
+            get {
+                return bi;
+            }
+            set {
+                //var stream = RandomAccessStreamReference.CreateFromUri(new Uri(_Waveform_url));
+                bi = new BitmapImage();
+                bi.UriSource = new Uri(_Waveform_url);
+                
+            }
+        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)

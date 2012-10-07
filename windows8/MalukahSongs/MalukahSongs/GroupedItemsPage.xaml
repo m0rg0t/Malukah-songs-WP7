@@ -50,36 +50,6 @@
             IsSwipeEnabled="false"
             IsItemClickEnabled="True"
             ItemClick="ItemView_ItemClick">
-
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>                        
-                    <VirtualizingStackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-            <GridView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid Margin="1,0,0,6">
-                                <Button
-                                    AutomationProperties.Name="Group Title"
-                                    Click="Header_Click"
-                                    Style="{StaticResource TextPrimaryButtonStyle}" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Title}" Margin="3,-7,10,10" Style="{StaticResource GroupHeaderTextStyle}" />
-                                        <TextBlock Text="{StaticResource ChevronGlyph}" FontFamily="Segoe UI Symbol" Margin="0,-7,0,10" Style="{StaticResource GroupHeaderTextStyle}"/>
-                                    </StackPanel>
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                    <GroupStyle.Panel>
-                        <ItemsPanelTemplate>
-                            <VariableSizedWrapGrid Orientation="Vertical" Margin="0,0,80,0"/>
-                        </ItemsPanelTemplate>
-                    </GroupStyle.Panel>
-                </GroupStyle>
-            </GridView.GroupStyle>
         </GridView>
 
         <!-- Список с вертикальной прокруткой используется только в прикрепленном представлении -->

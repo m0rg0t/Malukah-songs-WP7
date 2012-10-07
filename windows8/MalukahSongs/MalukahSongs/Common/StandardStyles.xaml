@@ -1645,7 +1645,7 @@
     <DataTemplate x:Key="Standard250x250ItemTemplate">
         <Grid HorizontalAlignment="Left" Width="350" Height="250">
             <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                <Image Source="{Binding Waveform_url}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                <Image Source="{Binding Waveform_url}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}" CacheMode="BitmapCache"/>
             </Border>
             <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                 <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
@@ -1752,7 +1752,7 @@
     <!--
       Шаблон элемента 190 на 130 пикселей для отображения эскизов, как на странице FileOpenPickerPage
       Включает подробную всплывающую подсказку для отображения заголовка и текста описания
-  -->
+  
     <DataTemplate x:Key="StandardFileWithTooltip190x130ItemTemplate">
         <Grid>
             <Grid Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
@@ -1799,7 +1799,7 @@
         </Grid>
     </DataTemplate>
 
-    <!-- Стили ScrollViewer -->
+    Стили ScrollViewer -->
 
     <Style x:Key="HorizontalScrollViewerStyle" TargetType="ScrollViewer">
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
