@@ -19,10 +19,11 @@
         -->
         <CollectionViewSource
             x:Name="groupedItemsViewSource"
-            Source="{Binding Groups}"
+            Source="{Binding Items}"
             IsSourceGrouped="true"
-            ItemsPath="TopItems"
-            d:Source="{Binding AllGroups, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
+            ItemsPath="Items"
+            />
+        <!-- d:Source="{Binding Items, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}" -->
     </Page.Resources>
 
     <!--
@@ -125,7 +126,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Grid.Column="1" IsHitTestVisible="false" Style="{StaticResource PageHeaderTextStyle}"/>
+            <TextBlock x:Name="pageTitle" Text="Malukah songs" Grid.Column="1" IsHitTestVisible="false" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

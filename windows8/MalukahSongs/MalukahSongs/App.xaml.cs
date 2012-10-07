@@ -1,5 +1,5 @@
 ﻿using MalukahSongs.Common;
-
+using MalukahSongs.DataModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +33,11 @@ namespace MalukahSongs
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            App.ViewModel = new MainViewModel();
         }
+
+        static public MainViewModel ViewModel = new MainViewModel();
 
         /// <summary>
         /// Вызывается при обычном запуске приложения пользователем.  Будут использоваться другие точки входа,
