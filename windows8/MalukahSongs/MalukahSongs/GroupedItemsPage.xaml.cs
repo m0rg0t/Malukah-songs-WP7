@@ -1,5 +1,5 @@
 ﻿using MalukahSongs.Data;
-
+using MalukahSongs.DataModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -72,5 +72,32 @@ namespace MalukahSongs
             var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
             this.Frame.Navigate(typeof(ItemDetailPage), itemId);
         }
+
+        private void Grid_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            if (!App.ViewModel.IsDataLoaded)
+            {
+                try
+                {
+                    App.ViewModel.LoadData();
+                    App.ViewModel.DataLoad += new MainViewModel.DataLoadEventHandler(this.DataLoaded);
+                }
+                catch { };
+            };
+        }
+
+        private void DataLoaded(object sender, EventArgs e)
+        {
+            try
+            {
+                this.itemGridView.ItemsSource = App.ViewModel.Items;
+                this.itemListView.ItemsSource = App.ViewModel.Items;
+            }
+            catch
+            {
+            };
+        }
+
+
     }
 }

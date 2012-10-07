@@ -26,6 +26,18 @@ namespace MalukahSongs.DataModel
             catch { };
         }
 
+        public delegate void DataLoadEventHandler(object sender, EventArgs e);
+        public event DataLoadEventHandler DataLoad;
+        protected virtual void OnDataLoad(EventArgs e)
+        {
+
+            if (DataLoad != null)
+            {
+                //this.NotifyPropertyChanged("Items");
+                DataLoad(this, e);
+            };
+        }
+
         public ObservableCollection<ItemViewModel> Items { get; private set; }
 
         public bool IsDataLoaded
@@ -43,12 +55,19 @@ namespace MalukahSongs.DataModel
 
             json = await MakeWebRequestForSoundcloud();
 
-            roamingSettings.Values["tracks"] = json; 
+            try
+            {
+                roamingSettings.Values["tracks"] = json;
+            }
+            catch { };
 
             Items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json);
+
             this.IsDataLoaded = true;
             NotifyPropertyChanged("IsDataLoaded");
             NotifyPropertyChanged("Items");
+
+            App.ViewModel.OnDataLoad(EventArgs.Empty);
         }
 
         public async Task<string> MakeWebRequestForSoundcloud()

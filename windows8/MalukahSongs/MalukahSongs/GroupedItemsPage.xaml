@@ -31,7 +31,7 @@
         * Строка 0 содержит кнопку "Назад" и заголовок страницы
         * Строка 1 содержит оставшуюся часть страницы
     -->
-    <Grid Style="{StaticResource LayoutRootStyle}">
+    <Grid Style="{StaticResource LayoutRootStyle}" Loaded="Grid_Loaded_1">
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
