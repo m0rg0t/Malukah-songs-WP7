@@ -11,13 +11,13 @@
     
     <Grid>
         <StackPanel Grid.Row="1" Margin="40">
-            <TextBlock HorizontalAlignment="Left" 
+            <TextBlock HorizontalAlignment="Left" Foreground="Black"
 		Margin="0" TextWrapping="Wrap" Text="Application shows somngs and music files from Malukah at SoundCloud service." 
 		VerticalAlignment="Top" Style="{StaticResource BodyTextStyle}"/>
             
 
             <TextBlock HorizontalAlignment="Left" 
-		Margin="0,10,0,10" TextWrapping="Wrap" Text="Author - Lenev Anton" 
+		Margin="0,10,0,10" TextWrapping="Wrap" Text="Author - Lenev Anton" Foreground="Black"
 		VerticalAlignment="Top" Style="{StaticResource BodyTextStyle}"/>
 
             <HyperlinkButton Content="@m0rg0t" HorizontalAlignment="Left" 
@@ -29,10 +29,7 @@
             <HyperlinkButton Content="m0rg0t.Anton@gmail.com" HorizontalAlignment="Left" 
 			NavigateUri="mailto:m0rg0t.Anton@gmail.com" Foreground="#FF420000" FontSize="16" FontWeight="Normal" Margin="-15,0,0,0"/>
 
-
             <Image Source="Assets/290360_524708930876604_1945697300_o.jpg" Stretch="UniformToFill" VerticalAlignment="Top" Margin="0,15,0,0"/>
-
-
 
         </StackPanel>
     </Grid>

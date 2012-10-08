@@ -149,6 +149,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Content Include="Assets\290360_524708930876604_1945697300_o.jpg" />
+    <Content Include="Assets\847145b1ce97a6308733149bae116b2a.jpeg" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
