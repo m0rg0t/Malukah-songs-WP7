@@ -110,9 +110,9 @@ namespace MalukahSongs.DataModel
             }
             set {
                 //var stream = RandomAccessStreamReference.CreateFromUri(new Uri(_Waveform_url));
-                bi = new BitmapImage();
-                bi.UriSource = new Uri(_Waveform_url);
-                
+                bi = value;
+                //bi.UriSource = new Uri(_Waveform_url);
+                NotifyPropertyChanged("Image");
             }
         }
         

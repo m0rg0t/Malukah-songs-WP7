@@ -8,7 +8,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace MalukahSongs.DataModel
 
@@ -20,8 +22,6 @@ namespace MalukahSongs.DataModel
 
         public MainViewModel()
         {
-            Items.CollectionChanged += ItemsCollectionChanged;
-
             this._items = new ObservableCollection<ItemViewModel>();
 
             try
@@ -58,72 +58,32 @@ namespace MalukahSongs.DataModel
             get { return this._topItem; }
         }
 
-        
 
-        private void ItemsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private async void LoadImages()
         {
-            // Предоставляет подмножество полной коллекции элементов, привязываемой из объекта GroupedItemsPage
-            // по двум причинам: GridView не виртуализирует большие коллекции элементов и оно
-            // улучшает работу пользователей при просмотре групп с большим количеством
-            // элементов.
-            //
-            // Отображается максимальное число столбцов (12), поскольку это приводит к заполнению столбцов сетки
-            // сколько строк отображается: 1, 2, 3, 4 или 6
+            List<BitmapImage> ImagesList = new List<BitmapImage>();
 
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    if (e.NewStartingIndex < 12)
-                    {
-                        TopItems.Insert(e.NewStartingIndex, Items[e.NewStartingIndex]);
-                        if (TopItems.Count > 12)
-                        {
-                            TopItems.RemoveAt(12);
-                        }
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    if (e.OldStartingIndex < 12 && e.NewStartingIndex < 12)
-                    {
-                        TopItems.Move(e.OldStartingIndex, e.NewStartingIndex);
-                    }
-                    else if (e.OldStartingIndex < 12)
-                    {
-                        TopItems.RemoveAt(e.OldStartingIndex);
-                        TopItems.Add(Items[11]);
-                    }
-                    else if (e.NewStartingIndex < 12)
-                    {
-                        TopItems.Insert(e.NewStartingIndex, Items[e.NewStartingIndex]);
-                        TopItems.RemoveAt(12);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    if (e.OldStartingIndex < 12)
-                    {
-                        TopItems.RemoveAt(e.OldStartingIndex);
-                        if (Items.Count >= 12)
-                        {
-                            TopItems.Add(Items[11]);
-                        }
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    if (e.OldStartingIndex < 12)
-                    {
-                        TopItems[e.OldStartingIndex] = Items[e.OldStartingIndex];
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    TopItems.Clear();
-                    while (TopItems.Count < Items.Count && TopItems.Count < 12)
-                    {
-                        TopItems.Add(Items[TopItems.Count]);
-                    }
-                    break;
-            }
+                foreach (var item in this.Items)
+                {
+                    var httpClient = new HttpClient();
+                    var contentBytes = await httpClient.GetByteArrayAsync(item.Waveform_url);
+                    var ims = new InMemoryRandomAccessStream();
+                    var dataWriter = new DataWriter(ims);
+                    dataWriter.WriteBytes(contentBytes);
+                    await dataWriter.StoreAsync();
+                    ims.Seek(0);
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.SetSource(ims);
+                    ImagesList.Add(bitmap);
+                };
+
+                for (var i = 0; i < Items.Count(); i++)
+                {
+                    Items[i].Image = ImagesList[i];
+                };
+                this.IsDataLoaded = true;
         }
-
 
         public bool IsDataLoaded
         {
@@ -148,10 +108,9 @@ namespace MalukahSongs.DataModel
 
             _items = JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json);
 
-            /*NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, _items);
-            this.ItemsCollectionChanged(this, e);*/
+            this.LoadImages();
 
-            this.IsDataLoaded = true;
+            
             NotifyPropertyChanged("IsDataLoaded");
             NotifyPropertyChanged("Items");
 
@@ -164,9 +123,6 @@ namespace MalukahSongs.DataModel
             HttpResponseMessage response = await http.GetAsync("http://api.soundcloud.com/users/malukah/tracks.json?client_id=c210a3efbb3d75200118f6bf24d71ee0");
             return await response.Content.ReadAsStringAsync();
         }
-
-
-
 
 
         public event PropertyChangedEventHandler PropertyChanged;

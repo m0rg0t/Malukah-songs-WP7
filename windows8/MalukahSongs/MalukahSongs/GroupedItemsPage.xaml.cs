@@ -1,4 +1,5 @@
-﻿using MalukahSongs.Data;
+﻿using Callisto.Controls;
+using MalukahSongs.Data;
 using MalukahSongs.DataModel;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -65,12 +68,15 @@ namespace MalukahSongs
         /// <param name="sender">Объект GridView (или ListView, если приложение прикреплено),
         /// в котором отображается нажатый элемент.</param>
         /// <param name="e">Данные о событии, описывающие нажатый элемент.</param>
-        void ItemView_ItemClick(object sender, ItemClickEventArgs e)
+        async void ItemView_ItemClick(object sender, ItemClickEventArgs e)
         {
             // Переход к соответствующей странице назначения и настройка новой страницы
             // путем передачи необходимой информации в виде параметра навигации
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            this.Frame.Navigate(typeof(ItemDetailPage), itemId);
+            //var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
+            //this.Frame.Navigate(typeof(ItemDetailPage), itemId);
+
+            //WebBrowserTask web = new WebBrowserTask();
+            await Launcher.LaunchUriAsync(new Uri(((ItemViewModel)e.ClickedItem).Permalink_url));
         }
 
         private void Grid_Loaded_1(object sender, RoutedEventArgs e)
@@ -90,12 +96,51 @@ namespace MalukahSongs
         {
             try
             {
+                this.Loading.IsIndeterminate = false;
+                this.Loading.Visibility = Visibility.Collapsed;
+
                 this.itemGridView.ItemsSource = App.ViewModel.Items;
                 this.itemListView.ItemsSource = App.ViewModel.Items;
             }
             catch
             {
+                this.Loading.IsIndeterminate = false;
+                this.Loading.Visibility = Visibility.Collapsed;
             };
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            SettingsPane.GetForCurrentView().CommandsRequested += Settings_CommandsRequested;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            SettingsPane.GetForCurrentView().CommandsRequested -= Settings_CommandsRequested;
+        }
+
+        void Settings_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            var viewAboutPage = new SettingsCommand("", "About", cmd =>
+            {
+                //(Window.Current.Content as Frame).Navigate(typeof(AboutPage));
+                var settingsFlyout = new SettingsFlyout();
+                settingsFlyout.Content = new About(); 
+                settingsFlyout.HeaderText = "About";
+
+                settingsFlyout.IsOpen = true;
+            });
+            args.Request.ApplicationCommands.Add(viewAboutPage);
+
+            var viewAboutMalukahPage = new SettingsCommand("", "About Malukah", cmd =>
+            {
+                var settingsFlyout = new SettingsFlyout();
+                settingsFlyout.Content = new AboutMalukah();
+                settingsFlyout.HeaderText = "About Malukah";
+
+                settingsFlyout.IsOpen = true;
+            });
+            args.Request.ApplicationCommands.Add(viewAboutMalukahPage);
         }
 
 
