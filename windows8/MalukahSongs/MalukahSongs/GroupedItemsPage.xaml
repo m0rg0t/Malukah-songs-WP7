@@ -25,17 +25,40 @@
             />
         <!-- d:Source="{Binding Items, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}" -->
     </Page.Resources>
+	<common:LayoutAwarePage.BottomAppBar>
+		<AppBar>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+					<Button x:Name="PlayAppBarButton" Style="{StaticResource PlayAppBarButtonStyle}" Click="PlayAppBarButton_Click"/>
+					<Button x:Name="PauseAppBarButton" HorizontalAlignment="Stretch" Style="{StaticResource PauseAppBarButtonStyle}" Click="PauseAppBarButton_Click"/>
+					<Button x:Name="SaveMusicAppBarButton" Style="{StaticResource SaveAppBarButtonStyle}" Click="SaveMusicAppBarButton_Click"/>
+					<Button x:Name="OpenWebBrowser" Style="{StaticResource GoAppBarButtonStyle}" Click="OpenWebBrowser_Click"/>
+				</StackPanel>
+				<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal"/>
+			</Grid>
+		</AppBar>
+	</common:LayoutAwarePage.BottomAppBar>
+
+
 
     <!--
         Эта сетка выступает в роли корневой области страницы и определяет две строки:
         * Строка 0 содержит кнопку "Назад" и заголовок страницы
         * Строка 1 содержит оставшуюся часть страницы
     -->
+
     <Grid Style="{StaticResource LayoutRootStyle}" Loaded="Grid_Loaded_1">
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <MediaElement Name="Player">
+        </MediaElement>
 
         <!-- Сетка с горизонтальной прокруткой используется в большинстве состояний представления -->
         <GridView
@@ -46,7 +69,7 @@
             Padding="116,137,40,46"
             ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
             ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
-            SelectionMode="None"
+            SelectionMode="Single"
             IsSwipeEnabled="false"
             IsItemClickEnabled="True"
             ItemClick="ItemView_ItemClick">

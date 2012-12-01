@@ -5,10 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -70,13 +75,17 @@ namespace MalukahSongs
         /// <param name="e">Данные о событии, описывающие нажатый элемент.</param>
         async void ItemView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            // Переход к соответствующей странице назначения и настройка новой страницы
-            // путем передачи необходимой информации в виде параметра навигации
-            //var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            //this.Frame.Navigate(typeof(ItemDetailPage), itemId);
+            this.BottomAppBar.Visibility = Visibility.Visible;
+            
+            try
+            {
+                Player.Stop();
 
-            //WebBrowserTask web = new WebBrowserTask();
-            await Launcher.LaunchUriAsync(new Uri(((ItemViewModel)e.ClickedItem).Permalink_url));
+                ItemViewModel item = (ItemViewModel)e.ClickedItem;
+                Player.Source = new Uri(item.Download_url);
+                Player.Play();
+            }
+            catch { };
         }
 
         private void Grid_Loaded_1(object sender, RoutedEventArgs e)
@@ -89,6 +98,76 @@ namespace MalukahSongs
                     App.ViewModel.DataLoad += new MainViewModel.DataLoadEventHandler(this.DataLoaded);
                 }
                 catch { };
+            };
+        }
+
+
+        public static async Task<StorageFile> GetFileIfExistsAsync(StorageFolder folder, string fileName)
+        {
+            try
+            {
+                return await folder.GetFileAsync(fileName);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private async void SaveAsMusicInMusicLibrary(ItemViewModel item)
+        {
+            try
+            {
+                if (item.Download_url != null)
+                {
+                    var client = new HttpClient();
+                    HttpRequestMessage request = new
+                        HttpRequestMessage(HttpMethod.Get, item.Download_url);
+                    var response = await client.
+                        SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                    //var filename = item.Image_url.Substring(item.Image_url.LastIndexOf('/') + 1);
+                    Guid photoID = System.Guid.NewGuid();
+                    var filename = photoID.ToString() + ".mp3";
+                    //var filename = Path.GetFileName(item.Image_url);
+                    Task<StorageFile> task =
+                        GetFileIfExistsAsync(KnownFolders.MusicLibrary, filename);
+                    StorageFile file = await task;
+
+                    if (file == null)
+                    {
+                        var imageFile = await KnownFolders.MusicLibrary.
+                            CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+                        var fs = await imageFile.OpenAsync(FileAccessMode.ReadWrite);
+                        var writer = new DataWriter(fs.GetOutputStreamAt(0));
+
+                        writer.WriteBytes(await response.Content.ReadAsByteArrayAsync());
+
+                        await writer.StoreAsync();
+                        writer.DetachStream();
+                        await fs.FlushAsync();
+
+                        var dialog = new MessageDialog("Music file is successfully saved in \"Music Library\".",
+                            "Saving music");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        var dialog = new MessageDialog("Music file is already saved in \"Music Library\".",
+                            "Saving music");
+                        await dialog.ShowAsync();
+                    }
+                }
+                else 
+                {
+                    var dialog = new MessageDialog("Can't save file now.",
+                            "Saving music");
+                    await dialog.ShowAsync();
+                };
+            } catch {
+                /*var dialog = new MessageDialog("Can't save file now.",
+                            "Saving music");
+                await dialog.ShowAsync();*/
             };
         }
 
@@ -141,6 +220,56 @@ namespace MalukahSongs
                 settingsFlyout.IsOpen = true;
             });
             args.Request.ApplicationCommands.Add(viewAboutMalukahPage);
+
+            var PrivacyPage = new SettingsCommand("", "Privacy", cmd =>
+            {
+                var settingsFlyout = new SettingsFlyout();
+                settingsFlyout.Content = new Privacy();
+                settingsFlyout.HeaderText = "Privacy";
+
+                settingsFlyout.IsOpen = true;
+            });
+            args.Request.ApplicationCommands.Add(PrivacyPage);
+        }
+
+        async private void OpenWebBrowser_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await Launcher.LaunchUriAsync(new Uri(((ItemViewModel)itemGridView.SelectedItem).Permalink_url));
+            }
+            catch { };
+        }
+
+        private void SaveMusicAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SaveAsMusicInMusicLibrary((ItemViewModel)itemGridView.SelectedItem);
+            }
+            catch { };
+        }
+
+        private void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Player.Stop();
+
+                ItemViewModel item = (ItemViewModel)this.itemGridView.SelectedItem;
+                Player.Source = new Uri(item.Download_url);
+                Player.Play();
+            }
+            catch { };
+        }
+
+        private void PauseAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Player.Pause();
+            }
+            catch { };
         }
 
 
