@@ -5,28 +5,26 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{18D6DCE6-87ED-4D47-881C-C69F8111C35C}</ProjectGuid>
+    <ProjectGuid>{20B837F2-3D71-4687-A683-1E4F54D872CB}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Malukah_songs</RootNamespace>
-    <AssemblyName>Malukah songs</AssemblyName>
+    <RootNamespace>Google.AdMob.Ads.Sample.Intermediate</RootNamespace>
+    <AssemblyName>Google.AdMob.Ads.Sample.Intermediate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>true</SilverlightApplication>
     <SupportedCultures>
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>Malukah_songs.xap</XapFilename>
+    <XapFilename>Google.AdMob.Ads.Sample.Intermediate.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>Malukah_songs.App</SilverlightAppEntry>
+    <SilverlightAppEntry>Google.AdMob.Ads.Sample.Intermediate.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.30816.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,37 +48,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Coding4Fun.Phone.Controls">
-      <HintPath>..\packages\Coding4Fun.Phone.Controls.1.6.1\lib\sl4-windowsphone71\Coding4Fun.Phone.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.AdMob.Ads.WindowsPhone7, Version=4.0.1.27070, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Phone" />
-    <Reference Include="Microsoft.Phone.Controls" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit">
-      <HintPath>..\packages\SilverlightToolkitWP.4.2012.6.25\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Phone.Interop" />
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Google.AdMob.Ads.WindowsPhone7, Version=4.0.1.20539, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\sdk\Google.AdMob.Ads.WindowsPhone7.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
-    <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GeoProvider.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ItemViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -91,13 +80,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="SampleData\MainViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
@@ -105,24 +89,6 @@
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Background.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Google.AdMob.Ads.WindowsPhone7.dll" />
-    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
-    <Resource Include="vid1.jpg" />
-    <Resource Include="PanoramaBackground.png" />
-    <Resource Include="maluabout-225x300.jpg" />
-    <Content Include="icons\appbar.cancel.rest.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="icons\appbar.check.rest.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

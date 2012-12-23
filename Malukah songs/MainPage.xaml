@@ -32,6 +32,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
 
         <Controls:ProgressOverlay Grid.Row="0" Grid.Column="0" Name="progressOverlay" Height="800" Width="480" Visibility="Visible" IsEnabled="True">
@@ -148,5 +149,8 @@
             <!--Panorama item two  {Binding Permalink_uri}  http://soundcloud.com/malukah/age-of-oppression-malukah-->
             <!--Use 'Orientation="Horizontal"' to enable a panel that lays out horizontally-->
         </controls:Panorama>
+        <google:BannerAd Height="75" Grid.Row="2" Grid.Column="0"
+    xmlns:google="clr-namespace:Google.AdMob.Ads.WindowsPhone7.WPF;assembly=Google.AdMob.Ads.WindowsPhone7"
+    AdUnitID="a150d5dcc440dda" VerticalAlignment="Bottom" />
     </Grid>
 </phone:PhoneApplicationPage>

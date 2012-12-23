@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{893263A3-D8EF-4C0F-872B-B6EA6B83EDA5}"
+	ProjectSection(SolutionItems) = preProject
+		..\sdk\Google.AdMob.Ads.WindowsPhone7.dll = ..\sdk\Google.AdMob.Ads.WindowsPhone7.dll
+		..\sdk\Google.AdMob.Ads.WindowsPhone7.xml = ..\sdk\Google.AdMob.Ads.WindowsPhone7.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.AdMob.Ads.Sample.Fundamentals", "fundamentals\Google.AdMob.Ads.Sample.Fundamentals.csproj", "{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.AdMob.Ads.Sample.Intermediate", "intermediate\Google.AdMob.Ads.Sample.Intermediate.csproj", "{20B837F2-3D71-4687-A683-1E4F54D872CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C0519A6-4A5D-4BD4-8B52-B934EF11BD70}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{20B837F2-3D71-4687-A683-1E4F54D872CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B837F2-3D71-4687-A683-1E4F54D872CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B837F2-3D71-4687-A683-1E4F54D872CB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{20B837F2-3D71-4687-A683-1E4F54D872CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B837F2-3D71-4687-A683-1E4F54D872CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B837F2-3D71-4687-A683-1E4F54D872CB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
