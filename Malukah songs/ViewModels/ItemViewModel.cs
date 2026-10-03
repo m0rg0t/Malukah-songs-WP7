@@ -49,9 +49,10 @@ namespace Malukah_songs
             }
             set
             {
-                if (value != _Stream_url)
+                string url = String.IsNullOrEmpty(value) ? value : value + "?client_id=c210a3efbb3d75200118f6bf24d71ee0";
+                if (url != _Stream_url)
                 {
-                    _Stream_url = value + "?client_id=c210a3efbb3d75200118f6bf24d71ee0";
+                    _Stream_url = url;
                     NotifyPropertyChanged("Stream_url");
                 }
             }
@@ -70,9 +71,10 @@ namespace Malukah_songs
             }
             set
             {
-                if (value != _Download_url)
+                string url = String.IsNullOrEmpty(value) ? value : value + "?client_id=c210a3efbb3d75200118f6bf24d71ee0";
+                if (url != _Download_url)
                 {
-                    _Download_url = value.ToString() + "?client_id=c210a3efbb3d75200118f6bf24d71ee0";
+                    _Download_url = url;
                     NotifyPropertyChanged("Download_url");
                 }
             }
